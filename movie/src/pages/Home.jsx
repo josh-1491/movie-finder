@@ -5,8 +5,10 @@ import './Home.css';
 
 function Home({ favorites, onToggleFavorite }) {
     const [searchQuery, setSearchQuery] = useState('');
-    const [filteredMovies, setFilteredMovies] = useState([]);
     const [movies, setMovies] = useState([]);
+    const filteredMovies = movies.filter((movie) =>
+        movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     useEffect(() => {
         const loadMovies = async () => {
@@ -23,16 +25,8 @@ function Home({ favorites, onToggleFavorite }) {
         loadMovies();
     }, [searchQuery]);
 
-    useEffect(() => {
-        setFilteredMovies(movies);
-    }, [movies]);
-
     const handleSearch = (event) => {
         event.preventDefault();
-        const searchTerm = searchQuery.toLowerCase();
-        setFilteredMovies(
-            movies.filter((movie) => movie.title.toLowerCase().includes(searchTerm))
-        );
     };
 
     return (
